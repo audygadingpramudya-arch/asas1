@@ -1,0 +1,30 @@
+kind: wasmer.io/App.v0
+owner: audygadingpramudya-arch
+name: namaasas
+package: .
+
+env:
+  APP_ENV: production
+  APP_DEBUG: "false"
+  APP_URL: https://namaasas.wasmer.app
+  DB_CONNECTION: mysql
+  DB_DATABASE: "${DB_NAME}"
+  CACHE_STORE: database
+  SESSION_DRIVER: database
+  SESSION_SECURE_COOKIE: "true"
+  QUEUE_CONNECTION: database
+
+database:
+  engine: mysql
+
+jobs:
+  - name: migrate-database
+    trigger: pre-deployment
+    timeout: 5m
+    action:
+      execute:
+        command: php
+        cli_args:
+          - artisan
+          - migrate
+          - --force
